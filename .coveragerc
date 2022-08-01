@@ -1,6 +1,6 @@
 [run]
 branch = True
 data_file = .coverage
-source=getsmarter-api-clients
+source=get_smarter_api_clients
 omit =
     tests

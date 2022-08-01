@@ -47,12 +47,10 @@ upgrade: ## update the requirements/*.txt files with the latest packages satisfy
 	$(PIP_COMPILE) -o requirements/dev.txt requirements/dev.in
 
 quality: ## check coding style with pycodestyle and pylint
-	touch tests/__init__.py
-	pylint clients tests test_utils *.py
-	rm tests/__init__.py
-	pycodestyle clients tests  *.py
-	pydocstyle clients tests *.py
-	isort --check-only --diff --recursive tests test_utils clients *.py test_settings.py
+	pylint get_smarter_api_clients tests test_utils *.py
+	pycodestyle get_smarter_api_clients tests  *.py
+	pydocstyle get_smarter_api_clients tests *.py
+	isort --check-only --diff --recursive tests test_utils get_smarter_api_clients *.py test_settings.py
 	python setup.py bdist_wheel
 	twine check dist/*
 	make selfcheck
