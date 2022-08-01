@@ -3,4 +3,4 @@ include LICENSE.txt
 include README.rst
 include requirements/base.in
 include requirements/constraints.txt
-recursive-include getsmarter-api-clients *.html *.png *.gif *.js *.css *.jpg *.jpeg *.svg *.py
+recursive-include get_smarter_api_clients *.html *.png *.gif *.js *.css *.jpg *.jpeg *.svg *.py

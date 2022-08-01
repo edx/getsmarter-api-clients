@@ -1,44 +1,34 @@
-name: Python CI
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches:
-      - '**'
+    branches: [main]
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  run_tests:
-    name: tests
-    runs-on: ${{ matrix.os }}
+  build-and-test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-20.04]
         python-version: ['3.8']
-        toxenv: ["py38", "quality", "docs", "pii_check"]
-
+        toxenv: [quality, docs, 'py38']
+    env:
+      RUNJSHINT: true
     steps:
       - uses: actions/checkout@v2
-      - name: setup python
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install pip
-        run: pip install -r requirements/pip.txt
-
-      - name: Install Dependencies
-        run: pip install -r requirements/ci.txt
-
-      - name: Run Tests
+          python-version: '3.8'
+          architecture: x64
+      - run: pip install -r requirements/ci.txt
+      - name: Run tox
         env:
           TOXENV: ${{ matrix.toxenv }}
         run: tox
-
-      - name: Run coverage
-        if: matrix.python-version == '3.8' && matrix.toxenv == 'quality'
-        uses: codecov/codecov-action@v1
-        with:
-          flags: unittests
-          fail_ci_if_error: true
+      - name: Run code coverage
+        run: codecov

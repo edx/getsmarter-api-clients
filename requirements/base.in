@@ -1,3 +1,6 @@
 # Core requirements for using this application
 -c constraints.txt
 
+oauthlib
+pytz
+requests_oauthlib
