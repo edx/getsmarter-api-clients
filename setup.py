@@ -89,7 +89,7 @@ def is_requirement(line):
     return line and line.strip() and not line.startswith(("-r", "#", "-e", "git+", "-c"))
 
 
-VERSION = get_version('get_smarter_api_clients', '__init__.py')
+VERSION = get_version('getsmarter_api_clients', '__init__.py')
 
 if sys.argv[-1] == 'tag':
     print("Tagging the version on github:")
@@ -109,7 +109,7 @@ setup(
     author_email='oscm@edx.org',
     url='https://github.com/edx/getsmarter-api-clients',
     packages=[
-        'get_smarter_api_clients',
+        'getsmarter_api_clients',
     ],
     include_package_data=True,
     install_requires=load_requirements('requirements/base.in'),
