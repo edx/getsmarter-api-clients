@@ -1,1 +1,0 @@
-# getsmarter-api-clients
