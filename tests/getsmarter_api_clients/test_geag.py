@@ -2,6 +2,7 @@
 Tests for the GEAG client.
 """
 
+import ast
 import json
 from datetime import datetime
 from unittest import mock
@@ -19,8 +20,13 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
     """
     Tests for GetSmarterEnterpriseApiClient.
     """
+    maxDiff = None
+
     def setUp(self):
         super().setUp()
+
+        self.terms_url = f'{self.api_url}/terms'
+        self.allocations_url = f'{self.api_url}/allocations'
 
         self.tiered_cache_patcher = mock.patch('getsmarter_api_clients.oauth.TieredCache')
         self.mock_tiered_cache = self.tiered_cache_patcher.start()
@@ -44,7 +50,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
 
         responses.add(
             responses.GET,
-            f'{self.api_url}/terms',
+            self.terms_url,
             body=json.dumps(terms_and_conditions),
             status=200,
         )
@@ -53,4 +59,67 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
         response = client.get_terms_and_policies()
         self.assertEqual(response, terms_and_conditions)
         self.assertEqual(len(responses.calls), 1)
-        self.assertEqual(responses.calls[0].request.url, f'{self.api_url}/terms')
+        self.assertEqual(responses.calls[0].request.url, self.terms_url)
+
+    @responses.activate
+    def test_create_allocation(self):
+        responses.add(
+            responses.POST,
+            self.allocations_url,
+            status=204,
+        )
+        client = GetSmarterEnterpriseApiClient(**self.mock_constructor_args)
+
+        kwargs = {
+            'payment_reference': 'payment_reference',
+            'address_line1': '10 Lovely Street',
+            'city': 'Herndon',
+            'postal_code': '35005',
+            'state': 'Alabama',
+            'state_code': 'state_code',
+            'country': 'country',
+            'country_code': 'country_code',
+            'first_name': 'John',
+            'last_name': 'Smith',
+            'email': 'johnsmith@example.com',
+            'date_of_birth': '2000-01-01',
+            'mobile_phone': '+12015551234',
+            'work_experience': 'None',
+            'terms_accepted_at': '2022-07-25T10:29:56Z',
+            'currency': 'USD',
+            'order_items': [
+                {
+                    # productId will be the variant id from product details
+                    'productId': '87c24e19-b82c-4acd-ab90-714af629f11a',
+                    'quantity': 1,
+                    'normalPrice': 1000,
+                    'discount': 1000,
+                    'finalPrice': 0
+                }
+            ]
+        }
+        client.create_allocation(**kwargs)
+
+        expected_payload = {
+            'paymentReference': kwargs['payment_reference'],
+            'addressLine1': kwargs['address_line1'],
+            'city': kwargs['city'],
+            'postalCode': kwargs['postal_code'],
+            'state': kwargs['state'],
+            'stateCode': kwargs['state_code'],
+            'country': kwargs['country'],
+            'countryCode': kwargs['country_code'],
+            'firstName': kwargs['first_name'],
+            'lastName': kwargs['last_name'],
+            'email': kwargs['email'],
+            'dateOfBirth': kwargs['date_of_birth'],
+            'termsAcceptedAt': kwargs['terms_accepted_at'],
+            'currency': kwargs['currency'],
+            'orderItems': kwargs['order_items'],
+            'mobilePhone': kwargs['mobile_phone'],
+            'workExperience': kwargs['work_experience']
+        }
+
+        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(responses.calls[0].request.url, self.allocations_url)
+        self.assertDictEqual(ast.literal_eval(responses.calls[0].request.body.decode('utf-8')), expected_payload)
