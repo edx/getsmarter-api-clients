@@ -72,19 +72,10 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
 
         kwargs = {
             'payment_reference': 'payment_reference',
-            'address_line1': '10 Lovely Street',
-            'city': 'Herndon',
-            'postal_code': '35005',
-            'state': 'Alabama',
-            'state_code': 'state_code',
-            'country': 'country',
-            'country_code': 'country_code',
             'first_name': 'John',
             'last_name': 'Smith',
             'email': 'johnsmith@example.com',
             'date_of_birth': '2000-01-01',
-            'mobile_phone': '+12015551234',
-            'work_experience': 'None',
             'terms_accepted_at': '2022-07-25T10:29:56Z',
             'currency': 'USD',
             'order_items': [
@@ -96,19 +87,21 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
                     'discount': 1000,
                     'finalPrice': 0
                 }
-            ]
+            ],
+            'address_line1': '10 Lovely Street',
+            'city': 'Herndon',
+            'postal_code': '35005',
+            'state': 'Alabama',
+            'state_code': 'state_code',
+            'country': 'country',
+            'country_code': 'country_code',
+            'mobile_phone': '+12015551234',
+            'work_experience': 'None'
         }
         client.create_allocation(**kwargs)
 
         expected_payload = {
             'paymentReference': kwargs['payment_reference'],
-            'addressLine1': kwargs['address_line1'],
-            'city': kwargs['city'],
-            'postalCode': kwargs['postal_code'],
-            'state': kwargs['state'],
-            'stateCode': kwargs['state_code'],
-            'country': kwargs['country'],
-            'countryCode': kwargs['country_code'],
             'firstName': kwargs['first_name'],
             'lastName': kwargs['last_name'],
             'email': kwargs['email'],
@@ -116,6 +109,13 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
             'termsAcceptedAt': kwargs['terms_accepted_at'],
             'currency': kwargs['currency'],
             'orderItems': kwargs['order_items'],
+            'addressLine1': kwargs['address_line1'],
+            'city': kwargs['city'],
+            'postalCode': kwargs['postal_code'],
+            'state': kwargs['state'],
+            'stateCode': kwargs['state_code'],
+            'country': kwargs['country'],
+            'countryCode': kwargs['country_code'],
             'mobilePhone': kwargs['mobile_phone'],
             'workExperience': kwargs['work_experience']
         }
