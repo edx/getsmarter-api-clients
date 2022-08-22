@@ -28,13 +28,6 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
     def create_allocation(
         self,
         payment_reference,
-        address_line1,
-        city,
-        postal_code,
-        state,
-        state_code,
-        country,
-        country_code,
         first_name,
         last_name,
         email,
@@ -42,7 +35,14 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         terms_accepted_at,
         currency,
         order_items,
+        address_line1=None,
         address_line2=None,
+        city=None,
+        postal_code=None,
+        state=None,
+        state_code=None,
+        country=None,
+        country_code=None,
         mobile_phone=None,
         work_experience=None,
         education_highest_level=None
@@ -51,28 +51,26 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         Create an allocation (enrollment) through GEAG.
 
         :Parameters:
-          - `file_id`: The id to use for this file. The id must not have
-            already been used for another file.
           - `payment_reference (str)`: Reference used by enterprise partner
             when payment is made to GetSmarter
-          - `address_line1`: Address Line 1
-          - `city`: City
-          - `postal_code`: Postal code
-          - `state`: State
-          - `state_code`: State code
-          - `country` (str): Country
-          - `country_code` (str): Country code,
-          - `first_name` (str): First name
-          - `last_name` (str): Last name
-          - `email` (str): Email
-          - `date_of_birth` (str): Date of birth
-          - `terms_accepted_at` (str): ISO 8601 timestamp of
+          - `first_name (str)`: First name
+          - `last_name (str)`: Last name
+          - `email (str)`: Email
+          - `date_of_birth (str)`: Date of birth
+          - `terms_accepted_at (str)`: ISO 8601 timestamp of
             when the terms and policies were accepted
-          - `currency`: One of ['USD', 'GBP', 'ZAR', 'EUR', 'AED',
+          - `currency (str)`: One of ['USD', 'GBP', 'ZAR', 'EUR', 'AED',
             'SGD', 'HKD', 'SAR', 'INR', 'CAD']
           - `order_items (list of dict)`: Items ordered
+          - `address_line1 (str)`: Address Line 1
           - `address_line2 (str)`: Adress Line 2
-          - `mobile_phone` (str): Mobile phone number
+          - `city (str)`: City
+          - `postal_code (str)`: Postal code
+          - `state (str)`: State
+          - `state_code (str)`: State code
+          - `country (str)`: Country
+          - `country_code (str)`: Country code
+          - `mobile_phone (str)`: Mobile phone number
           - `work_experience (str)`: One of ['None', '1 to 5 years',
             '5 to 15 years', 'More than 15 years']
           - `education_highest_level (str)`: One of ['High school',
@@ -81,14 +79,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'Bachelors degree']
 
         **Example payload**
-        {
-
-            "paymentReference": "GS-12304",
-            "addressLine1": "Oak Glen",
-            "city": "Cape Town",
-            "postalCode": "7570",
-            "country": "South Africa",
-            "countryCode": "ZA",
+          { "paymentReference": "GS-12304",
             "firstName": "Jan",
             "lastName": "Pan",
             "email": "janpan@gs.com",
@@ -96,21 +87,18 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             "termsAcceptedAt": "2021-05-21T17:32:28Z",
             "currency": "ZAR",
             "orderItems": [{ "productId": "product_id", "quantity": 1,
-            "normalPrice": 1000, "discount": 500, "finalPrice": 500 }]
+            "normalPrice": 1000, "discount": 500, "finalPrice": 500 }],
+            "addressLine1": "Oak Glen",
+            "city": "Cape Town",
+            "postalCode": "7570",
+            "country": "South Africa",
+            "countryCode": "ZA" }
 
-        }
         """
         url = f'{self.api_url}/allocations'
 
         payload = {
             'paymentReference': payment_reference,
-            'addressLine1': address_line1,
-            'city': city,
-            'postalCode': postal_code,
-            'state': state,
-            'stateCode': state_code,
-            'country': country,
-            'countryCode': country_code,
             'firstName': first_name,
             'lastName': last_name,
             'email': email,
@@ -119,7 +107,14 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'currency': currency,
             'orderItems': order_items,
             # optional fields
+            'addressLine1': address_line1,
             'addressLine2': address_line2,
+            'city': city,
+            'postalCode': postal_code,
+            'state': state,
+            'stateCode': state_code,
+            'country': country,
+            'countryCode': country_code,
             'mobilePhone': mobile_phone,
             'workExperience': work_experience,
             'educationHighestLevel': education_highest_level,
