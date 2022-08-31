@@ -45,7 +45,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         country_code=None,
         mobile_phone=None,
         work_experience=None,
-        education_highest_level=None
+        education_highest_level=None,
+        enterprise_customer_uuid=None
     ):
         """
         Create an allocation (enrollment) through GEAG.
@@ -77,22 +78,25 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'Bachelor’s degree', 'Master’s degree', 'Doctoral degree',
             'Other tertiary qualification', 'Honours degree',
             'Bachelors degree']
+          - `enterprise_customer_uuid (str)`: UUID of the enterprise
+             that sponsored this allocation
 
         **Example payload**
-          { "paymentReference": "GS-12304",
-            "firstName": "Jan",
-            "lastName": "Pan",
-            "email": "janpan@gs.com",
-            "dateOfBirth": "2021-05-12",
-            "termsAcceptedAt": "2021-05-21T17:32:28Z",
-            "currency": "ZAR",
-            "orderItems": [{ "productId": "product_id", "quantity": 1,
-            "normalPrice": 1000, "discount": 500, "finalPrice": 500 }],
-            "addressLine1": "Oak Glen",
-            "city": "Cape Town",
-            "postalCode": "7570",
-            "country": "South Africa",
-            "countryCode": "ZA" }
+         { "paymentReference": "GS-12304",
+           "firstName": "Jan",
+           "lastName": "Pan",
+           "email": "janpan@gs.com",
+           "dateOfBirth": "2021-05-12",
+           "termsAcceptedAt": "2021-05-21T17:32:28Z",
+           "currency": "ZAR",
+           "orderItems": [{ "productId": "product_id", "quantity": 1,
+           "normalPrice": 1000, "discount": 500, "finalPrice": 500 }],
+           "addressLine1": "Oak Glen",
+           "city": "Cape Town",
+           "postalCode": "7570",
+           "country": "South Africa",
+           "countryCode": "ZA",
+           "enterprise_customer_uuid": "731b28ee-09d1-4b89-8f7b-2c8fd0939746" }
 
         """
         url = f'{self.api_url}/allocations'
@@ -118,6 +122,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'mobilePhone': mobile_phone,
             'workExperience': work_experience,
             'educationHighestLevel': education_highest_level,
+            'enterprise_customer_uuid': enterprise_customer_uuid
         }
         # remove keys with empty values
         payload = {k: v for k, v in payload.items() if v is not None}
