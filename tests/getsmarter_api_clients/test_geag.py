@@ -27,6 +27,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
 
         self.terms_url = f'{self.api_url}/terms'
         self.allocations_url = f'{self.api_url}/allocations'
+        self.enterprise_allocations_url = f'{self.api_url}/enterprise_allocations'
 
         self.tiered_cache_patcher = mock.patch('getsmarter_api_clients.oauth.TieredCache')
         self.mock_tiered_cache = self.tiered_cache_patcher.start()
@@ -122,4 +123,67 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
 
         self.assertEqual(len(responses.calls), 1)
         self.assertEqual(responses.calls[0].request.url, self.allocations_url)
+        self.assertDictEqual(ast.literal_eval(responses.calls[0].request.body.decode('utf-8')), expected_payload)
+
+    @responses.activate
+    def test_create_enterprise_allocation(self):
+        responses.add(
+            responses.POST,
+            self.enterprise_allocations_url,
+            status=204,
+        )
+        client = GetSmarterEnterpriseApiClient(**self.mock_constructor_args)
+
+        kwargs = {
+            'payment_reference': 'payment_reference',
+            'first_name': 'John',
+            'last_name': 'Smith',
+            'email': 'johnsmith@example.com',
+            'date_of_birth': '2000-01-01',
+            'terms_accepted_at': '2022-07-25T10:29:56Z',
+            'currency': 'USD',
+            'order_items': [
+                {
+                    # productId will be the variant id from product details
+                    'productId': '87c24e19-b82c-4acd-ab90-714af629f11a',
+                    'quantity': 1,
+                    'normalPrice': 1000,
+                    'discount': 1000,
+                    'finalPrice': 0
+                }
+            ],
+            'address_line1': '10 Lovely Street',
+            'city': 'Herndon',
+            'postal_code': '35005',
+            'state': 'Alabama',
+            'state_code': 'state_code',
+            'country': 'country',
+            'country_code': 'country_code',
+            'mobile_phone': '+12015551234',
+            'work_experience': 'None'
+        }
+        client.create_enterprise_allocation(**kwargs)
+
+        expected_payload = {
+            'paymentReference': kwargs['payment_reference'],
+            'firstName': kwargs['first_name'],
+            'lastName': kwargs['last_name'],
+            'email': kwargs['email'],
+            'dateOfBirth': kwargs['date_of_birth'],
+            'termsAcceptedAt': kwargs['terms_accepted_at'],
+            'currency': kwargs['currency'],
+            'orderItems': kwargs['order_items'],
+            'addressLine1': kwargs['address_line1'],
+            'city': kwargs['city'],
+            'postalCode': kwargs['postal_code'],
+            'state': kwargs['state'],
+            'stateCode': kwargs['state_code'],
+            'country': kwargs['country'],
+            'countryCode': kwargs['country_code'],
+            'mobilePhone': kwargs['mobile_phone'],
+            'workExperience': kwargs['work_experience']
+        }
+
+        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(responses.calls[0].request.url, self.enterprise_allocations_url)
         self.assertDictEqual(ast.literal_eval(responses.calls[0].request.body.decode('utf-8')), expected_payload)
