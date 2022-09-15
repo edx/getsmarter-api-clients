@@ -8,6 +8,7 @@ from getsmarter_api_clients.oauth import OAuthApiClient
 
 logger = logging.getLogger(__name__)
 
+
 class GetSmarterEnterpriseApiClient(OAuthApiClient):
     """
     Client to interface with the GetSmarter Enterprise API Gateway (GEAG).
