@@ -1,8 +1,12 @@
 """
 Client for GetSmarter API Gateway.
 """
+import logging
+from urllib.error import HTTPError
 
 from getsmarter_api_clients.oauth import OAuthApiClient
+
+logger = logging.getLogger(__name__)
 
 
 class GetSmarterEnterpriseApiClient(OAuthApiClient):
@@ -28,6 +32,124 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
     def create_allocation(
         self,
         payment_reference,
+        address_line1,
+        city,
+        postal_code,
+        country,
+        country_code,
+        first_name,
+        last_name,
+        email,
+        date_of_birth,
+        terms_accepted_at,
+        currency,
+        order_items,
+        address_line2=None,
+        state=None,
+        state_code=None,
+        mobile_phone=None,
+        work_experience=None,
+        education_highest_level=None
+    ):
+        """
+        Create an allocation (enrollment) through GEAG.
+
+        :Parameters:
+          - `payment_reference (str)`: Reference used by enterprise partner
+            when payment is made to GetSmarter
+          - `address_line1 (str)`: Address Line 1
+          - `city (str)`: City
+          - `postal_code (str)`: Postal code
+          - `country (str)`: Country
+          - `country_code (str)`: Country code
+          - `first_name (str)`: First name
+          - `last_name (str)`: Last name
+          - `email (str)`: Email
+          - `date_of_birth (str)`: Date of birth
+          - `terms_accepted_at (str)`: ISO 8601 timestamp of
+            when the terms and policies were accepted
+          - `currency (str)`: One of ['USD', 'GBP', 'ZAR', 'EUR', 'AED',
+            'SGD', 'HKD', 'SAR', 'INR', 'CAD']
+          - `order_items (list of dict)`: Items ordered
+          - `address_line2 (str)`: Adress Line 2
+          - `state (str)`: State
+          - `state_code (str)`: State code
+          - `mobile_phone (str)`: Mobile phone number
+          - `work_experience (str)`: One of ['None', '1 to 5 years',
+            '5 to 15 years', 'More than 15 years']
+          - `education_highest_level (str)`: One of ['High school',
+            'Bachelor’s degree', 'Master’s degree', 'Doctoral degree',
+            'Other tertiary qualification', 'Honours degree',
+            'Bachelors degree']
+
+        **Example payload**
+          { "paymentReference": "GS-12304",
+            'addressLine1': "10 Lovely Street",
+            'city': AnyTown,
+            'postalCode': 35025,
+            'country': "South Africa",
+            'countryCode': "ZA"',
+            "firstName": "Jan",
+            "lastName": "Pan",
+            "email": "janpan@gs.com",
+            "dateOfBirth": "2021-05-12",
+            "termsAcceptedAt": "2021-05-21T17:32:28Z",
+            "currency": "ZAR",
+            "orderItems": [{ "productId": "product_id", "quantity": 1,
+            "normalPrice": 1000, "discount": 500, "finalPrice": 500 }],
+            "addressLine1": "Oak Glen",
+            "city": "Cape Town",
+            "postalCode": "7570",
+            "country": "South Africa",
+            "countryCode": "ZA" }
+
+        """
+        url = f'{self.api_url}/allocations'
+
+        payload = {
+            'paymentReference': payment_reference,
+            'addressLine1': address_line1,
+            'city': city,
+            'postalCode': postal_code,
+            'country': country,
+            'countryCode': country_code,
+            'firstName': first_name,
+            'lastName': last_name,
+            'email': email,
+            'dateOfBirth': date_of_birth,
+            'termsAcceptedAt': terms_accepted_at,
+            'currency': currency,
+            'orderItems': order_items,
+            # optional fields
+            'addressLine2': address_line2,
+            'state': state,
+            'stateCode': state_code,
+            'mobilePhone': mobile_phone,
+            'workExperience': work_experience,
+            'educationHighestLevel': education_highest_level,
+        }
+        # remove keys with empty values
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        response = self.post(url, json=payload)
+        try:
+            response.raise_for_status()
+        except HTTPError:
+            message = (
+              f'Allocation failed to be created for order {payment_reference} '
+              f'with reasons: {response.text}'
+            )
+            logger.error(message)
+            raise
+
+    # This is for the endpoint created by GetSmarter for enterprise
+    # specific needs. The fields with a default of None are optional
+    # fields. Notice this endpoint differs in the amount of optional
+    # fields when compared against the other allocation endpoint.
+    def create_enterprise_allocation(
+        self,
+        payment_reference,
+        enterprise_customer_uuid,
         first_name,
         last_name,
         email,
@@ -48,11 +170,13 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         education_highest_level=None
     ):
         """
-        Create an allocation (enrollment) through GEAG.
+        Create an enterprise_allocation (enrollment) through GEAG.
 
         :Parameters:
           - `payment_reference (str)`: Reference used by enterprise partner
             when payment is made to GetSmarter
+          - `enterprise_customer_uuid (str)`: A uuid used by enterprise partner
+             to identify which enterprise customer the order was placed for
           - `first_name (str)`: First name
           - `last_name (str)`: Last name
           - `email (str)`: Email
@@ -80,6 +204,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
 
         **Example payload**
           { "paymentReference": "GS-12304",
+            "enterpriseCustomerUuid": "69C3E666-4740-4531-9435-A3EDF6D28C01",
             "firstName": "Jan",
             "lastName": "Pan",
             "email": "janpan@gs.com",
@@ -95,10 +220,11 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             "countryCode": "ZA" }
 
         """
-        url = f'{self.api_url}/allocations'
+        url = f'{self.api_url}/enterprise_allocations'
 
         payload = {
             'paymentReference': payment_reference,
+            'enterpriseCustomerUuid': enterprise_customer_uuid,
             'firstName': first_name,
             'lastName': last_name,
             'email': email,
@@ -123,4 +249,12 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         payload = {k: v for k, v in payload.items() if v is not None}
 
         response = self.post(url, json=payload)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPError:
+            message = (
+              f'Enterprise allocation failed to be created for order {payment_reference} '
+              f'with reasons: {response.text}'
+            )
+            logger.error(message)
+            raise
