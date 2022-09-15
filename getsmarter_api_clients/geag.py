@@ -1,9 +1,12 @@
 """
 Client for GetSmarter API Gateway.
 """
+import logging
+from urllib.error import HTTPError
 
 from getsmarter_api_clients.oauth import OAuthApiClient
 
+logger = logging.getLogger(__name__)
 
 class GetSmarterEnterpriseApiClient(OAuthApiClient):
     """
@@ -128,7 +131,14 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         payload = {k: v for k, v in payload.items() if v is not None}
 
         response = self.post(url, json=payload)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPError as e:
+            message = (
+              f'Allocation failed to be created for order {payment_reference}.'
+            )
+            logger.error(message)
+            raise
 
     # This is for the endpoint created by GetSmarter for enterprise
     # specific needs. The fields with a default of None are optional
@@ -237,4 +247,11 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         payload = {k: v for k, v in payload.items() if v is not None}
 
         response = self.post(url, json=payload)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPError as e:
+            message = (
+              f'Enterprise allocation failed to be created for order {payment_reference}.'
+            )
+            logger.error(message)
+            raise
