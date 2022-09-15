@@ -133,9 +133,10 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         response = self.post(url, json=payload)
         try:
             response.raise_for_status()
-        except HTTPError as e:
+        except HTTPError:
             message = (
-              f'Allocation failed to be created for order {payment_reference}.'
+              f'Allocation failed to be created for order {payment_reference} '
+              f'with reasons: {response.text}'
             )
             logger.error(message)
             raise
@@ -249,9 +250,10 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         response = self.post(url, json=payload)
         try:
             response.raise_for_status()
-        except HTTPError as e:
+        except HTTPError:
             message = (
-              f'Enterprise allocation failed to be created for order {payment_reference}.'
+              f'Enterprise allocation failed to be created for order {payment_reference} '
+              f'with reasons: {response.text}'
             )
             logger.error(message)
             raise
