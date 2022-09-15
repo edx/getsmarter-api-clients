@@ -136,6 +136,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
 
         kwargs = {
             'payment_reference': 'payment_reference',
+            'enterprise_customer_uuid': '01234567-1234-1234-1234-0123456789ab',
             'first_name': 'John',
             'last_name': 'Smith',
             'email': 'johnsmith@example.com',
@@ -166,6 +167,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
 
         expected_payload = {
             'paymentReference': kwargs['payment_reference'],
+            'enterpriseCustomerUuid': kwargs['enterprise_customer_uuid'],
             'firstName': kwargs['first_name'],
             'lastName': kwargs['last_name'],
             'email': kwargs['email'],

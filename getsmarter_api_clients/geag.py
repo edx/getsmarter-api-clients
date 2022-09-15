@@ -28,6 +28,11 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
     def create_allocation(
         self,
         payment_reference,
+        address_line1,
+        city,
+        postal_code,
+        country,
+        country_code,
         first_name,
         last_name,
         email,
@@ -35,14 +40,9 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         terms_accepted_at,
         currency,
         order_items,
-        address_line1=None,
         address_line2=None,
-        city=None,
-        postal_code=None,
         state=None,
         state_code=None,
-        country=None,
-        country_code=None,
         mobile_phone=None,
         work_experience=None,
         education_highest_level=None
@@ -53,6 +53,11 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         :Parameters:
           - `payment_reference (str)`: Reference used by enterprise partner
             when payment is made to GetSmarter
+          - `address_line1 (str)`: Address Line 1
+          - `city (str)`: City
+          - `postal_code (str)`: Postal code
+          - `country (str)`: Country
+          - `country_code (str)`: Country code
           - `first_name (str)`: First name
           - `last_name (str)`: Last name
           - `email (str)`: Email
@@ -62,14 +67,9 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
           - `currency (str)`: One of ['USD', 'GBP', 'ZAR', 'EUR', 'AED',
             'SGD', 'HKD', 'SAR', 'INR', 'CAD']
           - `order_items (list of dict)`: Items ordered
-          - `address_line1 (str)`: Address Line 1
           - `address_line2 (str)`: Adress Line 2
-          - `city (str)`: City
-          - `postal_code (str)`: Postal code
           - `state (str)`: State
           - `state_code (str)`: State code
-          - `country (str)`: Country
-          - `country_code (str)`: Country code
           - `mobile_phone (str)`: Mobile phone number
           - `work_experience (str)`: One of ['None', '1 to 5 years',
             '5 to 15 years', 'More than 15 years']
@@ -80,6 +80,11 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
 
         **Example payload**
           { "paymentReference": "GS-12304",
+            'addressLine1': "10 Lovely Street",
+            'city': AnyTown,
+            'postalCode': 35025,
+            'country': "South Africa",
+            'countryCode': "ZA"',
             "firstName": "Jan",
             "lastName": "Pan",
             "email": "janpan@gs.com",
@@ -99,6 +104,11 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
 
         payload = {
             'paymentReference': payment_reference,
+            'addressLine1': address_line1,
+            'city': city,
+            'postalCode': postal_code,
+            'country': country,
+            'countryCode': country_code,
             'firstName': first_name,
             'lastName': last_name,
             'email': email,
@@ -107,14 +117,9 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'currency': currency,
             'orderItems': order_items,
             # optional fields
-            'addressLine1': address_line1,
             'addressLine2': address_line2,
-            'city': city,
-            'postalCode': postal_code,
             'state': state,
             'stateCode': state_code,
-            'country': country,
-            'countryCode': country_code,
             'mobilePhone': mobile_phone,
             'workExperience': work_experience,
             'educationHighestLevel': education_highest_level,
@@ -125,11 +130,12 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         response = self.post(url, json=payload)
         response.raise_for_status()
 
-    # This is for the newer endpoint created by GetSmarter for enterprise
+    # This is for the endpoint created by GetSmarter for enterprise
     # specific needs.
     def create_enterprise_allocation(
         self,
         payment_reference,
+        enterprise_customer_uuid,
         first_name,
         last_name,
         email,
@@ -155,6 +161,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         :Parameters:
           - `payment_reference (str)`: Reference used by enterprise partner
             when payment is made to GetSmarter
+          - `enterprise_customer_uuid (str)`: A uuid used by enterprise partner
+             to identify which enterprise customer the order was placed for
           - `first_name (str)`: First name
           - `last_name (str)`: Last name
           - `email (str)`: Email
@@ -182,6 +190,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
 
         **Example payload**
           { "paymentReference": "GS-12304",
+            "enterpriseCustomerUuid": "69C3E666-4740-4531-9435-A3EDF6D28C01",
             "firstName": "Jan",
             "lastName": "Pan",
             "email": "janpan@gs.com",
@@ -201,6 +210,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
 
         payload = {
             'paymentReference': payment_reference,
+            'enterpriseCustomerUuid': enterprise_customer_uuid,
             'firstName': first_name,
             'lastName': last_name,
             'email': email,
