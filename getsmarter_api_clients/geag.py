@@ -131,7 +131,9 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         response.raise_for_status()
 
     # This is for the endpoint created by GetSmarter for enterprise
-    # specific needs.
+    # specific needs. The fields with a default of None are optional
+    # fields. Notice this endpoint differs in the amount of optional
+    # fields when compared against the other allocation endpoint.
     def create_enterprise_allocation(
         self,
         payment_reference,
