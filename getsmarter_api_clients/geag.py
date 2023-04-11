@@ -155,6 +155,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         email,
         date_of_birth,
         terms_accepted_at,
+        data_share_consent,
         currency,
         order_items,
         address_line1=None,
@@ -183,6 +184,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
           - `date_of_birth (str)`: Date of birth
           - `terms_accepted_at (str)`: ISO 8601 timestamp of
             when the terms and policies were accepted
+          - `data_share_consent (bool)`: Learner consent for data sharing
           - `currency (str)`: One of ['USD', 'GBP', 'ZAR', 'EUR', 'AED',
             'SGD', 'HKD', 'SAR', 'INR', 'CAD']
           - `order_items (list of dict)`: Items ordered
@@ -230,6 +232,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'email': email,
             'dateOfBirth': date_of_birth,
             'termsAcceptedAt': terms_accepted_at,
+            'dataShareConsent': data_share_consent,
             'currency': currency,
             'orderItems': order_items,
             # optional fields

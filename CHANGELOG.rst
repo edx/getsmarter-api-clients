@@ -16,6 +16,11 @@ Unreleased
 
 *
 
+[0.5.0] - 2023-04-12
+~~~~~~~~~~~~~~~~~~~~
+
+* Added new field for data_share_consent in enterprise_allocations
+
 [0.4.0] - 2022-09-12
 ~~~~~~~~~~~~~~~~~~~~
 
