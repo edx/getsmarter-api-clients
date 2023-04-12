@@ -142,6 +142,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
             'email': 'johnsmith@example.com',
             'date_of_birth': '2000-01-01',
             'terms_accepted_at': '2022-07-25T10:29:56Z',
+            'data_share_consent': 'true',
             'currency': 'USD',
             'order_items': [
                 {
@@ -173,6 +174,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
             'email': kwargs['email'],
             'dateOfBirth': kwargs['date_of_birth'],
             'termsAcceptedAt': kwargs['terms_accepted_at'],
+            'dataShareConsent': kwargs['data_share_consent'],
             'currency': kwargs['currency'],
             'orderItems': kwargs['order_items'],
             'addressLine1': kwargs['address_line1'],
