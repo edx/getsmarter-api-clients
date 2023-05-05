@@ -2,7 +2,8 @@
 Client for GetSmarter API Gateway.
 """
 import logging
-from urllib.error import HTTPError
+
+from requests.exceptions import HTTPError
 
 from getsmarter_api_clients.oauth import OAuthApiClient
 
