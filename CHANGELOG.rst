@@ -16,6 +16,10 @@ Unreleased
 
 *
 
+[0.5.3]
+~~~~~~~
+* Return allocation response objects
+
 [0.5.2]
 ~~~~~~~
 * Include payload in error message
