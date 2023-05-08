@@ -138,10 +138,12 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         except HTTPError:
             message = (
               f'Allocation failed to be created for order {payment_reference} '
-              f'with reasons: {response.text}'
+              f'with reasons: {response.text}, '
+              f'with payload: {payload}'
             )
             logger.error(message)
             raise
+        return response
 
     # This is for the endpoint created by GetSmarter for enterprise
     # specific needs. The fields with a default of None are optional
@@ -263,3 +265,4 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             )
             logger.error(message)
             raise
+        return response
