@@ -16,10 +16,13 @@ Unreleased
 
 *
 
+[0.5.2]
+~~~~~~~
+* Include payload in error message
+
 [0.5.1]
 ~~~~~~~
 * Catch a `requests.HTTPError`, not an `urllib.error.HTTPError`.
-
 
 [0.5.0] - 2023-04-12
 ~~~~~~~~~~~~~~~~~~~~

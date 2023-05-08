@@ -258,7 +258,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         except HTTPError:
             message = (
               f'Enterprise allocation failed to be created for order {payment_reference} '
-              f'with reasons: {response.text}'
+              f'with reasons: {response.text}, '
+              f'with payload: {payload}'
             )
             logger.error(message)
             raise
