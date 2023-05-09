@@ -171,7 +171,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         country_code=None,
         mobile_phone=None,
         work_experience=None,
-        education_highest_level=None
+        education_highest_level=None,
+        org_id=None
     ):
         """
         Create an enterprise_allocation (enrollment) through GEAG.
@@ -206,6 +207,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'Bachelor’s degree', 'Master’s degree', 'Doctoral degree',
             'Other tertiary qualification', 'Honours degree',
             'Bachelors degree']
+          - `org_id (str)`: `auth_org_id` from the learner’s
+            `EnterpriseCustomer` record
 
         **Example payload**
           { "paymentReference": "GS-12304",
@@ -222,7 +225,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             "city": "Cape Town",
             "postalCode": "7570",
             "country": "South Africa",
-            "countryCode": "ZA" }
+            "countryCode": "ZA",
+            "orgId": "12KJ2j9js0" }
 
         """
         url = f'{self.api_url}/enterprise_allocations'
@@ -250,6 +254,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             'mobilePhone': mobile_phone,
             'workExperience': work_experience,
             'educationHighestLevel': education_highest_level,
+            'orgId': org_id,
         }
         # remove keys with empty values
         payload = {k: v for k, v in payload.items() if v is not None}

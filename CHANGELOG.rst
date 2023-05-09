@@ -16,6 +16,10 @@ Unreleased
 
 *
 
+[0.5.4]
+~~~~~~~
+* Add `org_id`` as an optional enterprise allocation param
+
 [0.5.3]
 ~~~~~~~
 * Return allocation response objects

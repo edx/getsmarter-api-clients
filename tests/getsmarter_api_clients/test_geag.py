@@ -162,7 +162,8 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
             'country': 'country',
             'country_code': 'country_code',
             'mobile_phone': '+12015551234',
-            'work_experience': 'None'
+            'work_experience': 'None',
+            'org_id': '12KJ2j9js0',
         }
         client.create_enterprise_allocation(**kwargs)
 
@@ -185,7 +186,8 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
             'country': kwargs['country'],
             'countryCode': kwargs['country_code'],
             'mobilePhone': kwargs['mobile_phone'],
-            'workExperience': kwargs['work_experience']
+            'workExperience': kwargs['work_experience'],
+            'orgId': kwargs['org_id'],
         }
 
         self.assertEqual(len(responses.calls), 1)
