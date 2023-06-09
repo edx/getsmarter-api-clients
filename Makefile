@@ -55,6 +55,14 @@ quality: ## check coding style with pycodestyle and pylint
 	twine check dist/*
 	make selfcheck
 
+isort:
+	isort --diff --recursive tests test_utils getsmarter_api_clients *.py test_settings.py
+
+pylint:
+	pylint getsmarter_api_clients tests test_utils *.py
+
+style:
+	pycodestyle getsmarter_api_clients tests  *.py
 
 requirements: ## install development environment requirements
 	pip install -r requirements/pip.txt
