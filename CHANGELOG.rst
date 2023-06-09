@@ -13,8 +13,13 @@ Change Log
 
 Unreleased
 ~~~~~~~~~~
+* Nothing unreleased
 
-*
+[0.6.0]
+~~~~~~~
+* Adds optional arg to create_enterprise_allocation() to either raise (current/default behavior),
+  or not raise and fall through to returning the response. This will allow callers
+  to do things with the response payload in error conditions.
 
 [0.5.4]
 ~~~~~~~

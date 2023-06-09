@@ -172,7 +172,8 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         mobile_phone=None,
         work_experience=None,
         education_highest_level=None,
-        org_id=None
+        org_id=None,
+        should_raise=True,
     ):
         """
         Create an enterprise_allocation (enrollment) through GEAG.
@@ -269,5 +270,6 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
               f'with payload: {payload}'
             )
             logger.error(message)
-            raise
+            if should_raise:
+                raise
         return response
