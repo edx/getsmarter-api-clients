@@ -15,6 +15,10 @@ Unreleased
 ~~~~~~~~~~
 * Nothing unreleased
 
+[0.6.1]
+~~~~~~~
+* Adds an enterprise allocation cancellation method
+
 [0.6.0]
 ~~~~~~~
 * Adds optional arg to create_enterprise_allocation() to either raise (current/default behavior),
