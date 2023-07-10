@@ -6,6 +6,7 @@ import ast
 import json
 from datetime import datetime
 from unittest import mock
+from uuid import uuid4
 
 import ddt
 import pytz
@@ -53,6 +54,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
         'work_experience': 'None',
         'org_id': '12KJ2j9js0',
     }
+    ENTERPRISE_ALLOCATION_ORDER_UUID = str(uuid4())
 
     def setUp(self):
         super().setUp()
@@ -60,6 +62,7 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
         self.terms_url = f'{self.api_url}/terms'
         self.allocations_url = f'{self.api_url}/allocations'
         self.enterprise_allocations_url = f'{self.api_url}/enterprise_allocations'
+        self.enterprise_allocations_cancellation_url = f'{self.api_url}/enterprise_allocations/cancel'
 
         self.tiered_cache_patcher = mock.patch('getsmarter_api_clients.oauth.TieredCache')
         self.mock_tiered_cache = self.tiered_cache_patcher.start()
@@ -216,6 +219,51 @@ class GetSmarterEnterpriseApiClientTests(BaseOAuthApiClientTests):
         else:
             response = client.create_enterprise_allocation(
                 **self.ENTERPRISE_ALLOCATION_PAYLOAD,
+                should_raise=should_raise,
+            )
+            self.assertEqual(error_payload, response.json())
+            self.assertEqual(400, response.status_code)
+
+    @responses.activate
+    def test_cancel_enterprise_allocation(self):
+        responses.add(
+            responses.POST,
+            self.enterprise_allocations_cancellation_url,
+            status=204,
+        )
+        client = GetSmarterEnterpriseApiClient(**self.mock_constructor_args)
+
+        client.cancel_enterprise_allocation(self.ENTERPRISE_ALLOCATION_ORDER_UUID)
+
+        expected_payload = {
+            'orderUuid': self.ENTERPRISE_ALLOCATION_ORDER_UUID,
+        }
+
+        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(responses.calls[0].request.url, self.enterprise_allocations_cancellation_url)
+        self.assertDictEqual(ast.literal_eval(responses.calls[0].request.body.decode('utf-8')), expected_payload)
+
+    @responses.activate
+    @ddt.data(True, False)
+    def test_cancel_enterprise_allocation_error_response(self, should_raise):
+        error_payload = {'error': 'the workers are going home'}
+        responses.add(
+            responses.POST,
+            self.enterprise_allocations_cancellation_url,
+            status=400,
+            body=json.dumps(error_payload),
+        )
+        client = GetSmarterEnterpriseApiClient(**self.mock_constructor_args)
+
+        if should_raise:
+            with self.assertRaises(HTTPError):
+                response = client.cancel_enterprise_allocation(
+                    self.ENTERPRISE_ALLOCATION_ORDER_UUID,
+                    should_raise=should_raise,
+                )
+        else:
+            response = client.cancel_enterprise_allocation(
+                self.ENTERPRISE_ALLOCATION_ORDER_UUID,
                 should_raise=should_raise,
             )
             self.assertEqual(error_payload, response.json())

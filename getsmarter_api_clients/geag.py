@@ -273,3 +273,35 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
             if should_raise:
                 raise
         return response
+
+    def cancel_enterprise_allocation(
+        self,
+        order_uuid,
+        should_raise=True,
+    ):
+        """
+        Cancel an enterprise_allocation (enrollment) through GEAG.
+
+        :Parameters:
+          - `order_uuid` (str): The order UUID of the allocation
+          - `should_raise` (boolean): Should exceptions be re-raised
+        """
+        url = f'{self.api_url}/enterprise_allocations/cancel'
+
+        payload = {
+            'orderUuid': str(order_uuid),
+        }
+
+        response = self.post(url, json=payload)
+        try:
+            response.raise_for_status()
+        except HTTPError:
+            message = (
+              f'Allocation cancelation failed for {order_uuid} '
+              f'with reasons: {response.text}, '
+              f'with payload: {payload}'
+            )
+            logger.error(message)
+            if should_raise:
+                raise
+        return response
