@@ -30,5 +30,8 @@ jobs:
         env:
           TOXENV: ${{ matrix.toxenv }}
         run: tox
-      - name: Run code coverage
-        run: codecov
+      - name: Run Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittests
+          fail_ci_if_error: true
