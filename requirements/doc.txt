@@ -21,7 +21,6 @@ certifi==2023.7.22
 cffi==1.16.0
     # via
     #   -r requirements/test.txt
-    #   cryptography
     #   pynacl
 charset-normalizer==3.3.1
     # via
@@ -34,10 +33,7 @@ click==8.1.7
 coverage[toml]==7.3.2
     # via
     #   -r requirements/test.txt
-    #   coverage
     #   pytest-cov
-cryptography==41.0.4
-    # via secretstorage
 ddt==1.6.0
     # via -r requirements/test.txt
 django==3.2.22
@@ -91,10 +87,6 @@ iniconfig==2.0.0
     #   pytest
 jaraco-classes==3.3.0
     # via keyring
-jeepney==0.8.0
-    # via
-    #   keyring
-    #   secretstorage
 jinja2==3.1.2
     # via sphinx
 keyring==24.2.0
@@ -190,8 +182,6 @@ rfc3986==2.0.0
     # via twine
 rich==13.6.0
     # via twine
-secretstorage==3.3.3
-    # via keyring
 six==1.16.0
     # via edx-sphinx-theme
 snowballstemmer==2.2.0
