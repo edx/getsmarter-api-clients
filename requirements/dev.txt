@@ -19,19 +19,16 @@ build==1.0.3
     #   pip-tools
 certifi==2023.7.22
     # via
-    #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
 cffi==1.16.0
     # via
     #   -r requirements/quality.txt
-    #   cryptography
     #   pynacl
 chardet==5.2.0
     # via diff-cover
 charset-normalizer==3.3.1
     # via
-    #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
 click==8.1.7
@@ -51,19 +48,10 @@ code-annotations==1.5.0
     # via
     #   -r requirements/quality.txt
     #   edx-lint
-codecov==2.1.13
-    # via -r requirements/ci.txt
 coverage[toml]==7.3.2
     # via
-    #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-    #   codecov
-    #   coverage
     #   pytest-cov
-cryptography==41.0.4
-    # via
-    #   -r requirements/quality.txt
-    #   secretstorage
 ddt==1.6.0
     # via -r requirements/quality.txt
 diff-cover==8.0.0
@@ -110,7 +98,6 @@ filelock==3.12.4
     #   virtualenv
 idna==3.4
     # via
-    #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
 importlib-metadata==6.8.0
@@ -136,11 +123,6 @@ jaraco-classes==3.3.0
     # via
     #   -r requirements/quality.txt
     #   keyring
-jeepney==0.8.0
-    # via
-    #   -r requirements/quality.txt
-    #   keyring
-    #   secretstorage
 jinja2==3.1.2
     # via
     #   -r requirements/quality.txt
@@ -288,9 +270,7 @@ readme-renderer==42.0
     #   twine
 requests==2.31.0
     # via
-    #   -r requirements/ci.txt
     #   -r requirements/quality.txt
-    #   codecov
     #   requests-oauthlib
     #   requests-toolbelt
     #   responses
@@ -311,10 +291,6 @@ rich==13.6.0
     # via
     #   -r requirements/quality.txt
     #   twine
-secretstorage==3.3.3
-    # via
-    #   -r requirements/quality.txt
-    #   keyring
 six==1.16.0
     # via
     #   -r requirements/ci.txt
@@ -355,9 +331,7 @@ tomlkit==0.12.1
     #   -r requirements/quality.txt
     #   pylint
 tox==3.28.0
-    # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   -r requirements/ci.txt
+    # via -r requirements/ci.txt
 twine==4.0.2
     # via -r requirements/quality.txt
 types-pyyaml==6.0.12.12
@@ -373,7 +347,6 @@ typing-extensions==4.8.0
     #   rich
 urllib3==2.0.7
     # via
-    #   -r requirements/ci.txt
     #   -r requirements/quality.txt
     #   requests
     #   responses
