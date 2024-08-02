@@ -20,6 +20,8 @@ __pycache__
 /.installed.cfg
 /lib
 /lib64
+venv
+.idea
 
 # Installer logs
 pip-log.txt

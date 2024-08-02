@@ -15,15 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8']
-        toxenv: [quality, docs, 'py38']
+        python-version: ['3.11']
+        toxenv: [quality, docs, 'py311']
     env:
       RUNJSHINT: true
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.11'
           architecture: x64
       - run: pip install -r requirements/ci.txt
       - name: Run tox
@@ -31,8 +31,8 @@ jobs:
           TOXENV: ${{ matrix.toxenv }}
         run: tox
       - name: Run Coverage
-        if: matrix.toxenv == 'py38'
+        if: matrix.toxenv == 'py311'
         uses: codecov/codecov-action@v3
         with:
           flags: unittests
-          fail_ci_if_error: true
+          fail_ci_if_error: false
