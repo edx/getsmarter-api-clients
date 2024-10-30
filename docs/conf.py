@@ -89,8 +89,8 @@ top_level_doc = 'index'
 
 # General information about the project.
 project = 'getsmarter-api-clients'
-copyright = '{year}, edX Inc.'.format(year=datetime.datetime.now().year)  # pylint: disable=redefined-builtin
-author = 'edX Inc.'
+copyright = f'{datetime.now().year}, edX LLC.'  # pylint: disable=redefined-builtin
+author = 'edX LLC'
 project_title = 'getsmarter-api-clients'
 documentation_title = f"{project_title}"
 
