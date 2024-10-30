@@ -15,7 +15,7 @@ import os
 import re
 import sys
 from subprocess import check_call
-import datetime
+from datetime import datetime
 import sphinx_book_theme
 
 
