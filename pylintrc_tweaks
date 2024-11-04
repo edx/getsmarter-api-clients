@@ -5,5 +5,7 @@ load-plugins = edx_lint.pylint,pylint_celery
 
 [MESSAGES CONTROL]
 disable+ =
+    broad-exception-caught,
     consider-using-with,
     bad-option-value,
+    too-many-positional-arguments

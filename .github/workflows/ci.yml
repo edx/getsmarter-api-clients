@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.11']
-        toxenv: [quality, docs, 'py311']
+        python-version: ['3.12']
+        toxenv: [quality, docs, 'py312']
     env:
       RUNJSHINT: true
     steps:
@@ -31,7 +31,7 @@ jobs:
           TOXENV: ${{ matrix.toxenv }}
         run: tox
       - name: Run Coverage
-        if: matrix.toxenv == 'py311'
+        if: matrix.toxenv == 'py312'
         uses: codecov/codecov-action@v3
         with:
           flags: unittests
