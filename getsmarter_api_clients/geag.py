@@ -134,7 +134,7 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
 
         # log the payload
         payload_message = (
-            f'Attempting allocation for order {payment_reference} '
+            f'[create_allocation] Attempting allocation for order {payment_reference} '
             f'with payload: {payload}'
         )
         logger.info(payload_message)
@@ -267,6 +267,13 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         }
         # remove keys with empty values
         payload = {k: v for k, v in payload.items() if v is not None}
+
+        # log the payload
+        payload_message = (
+            f'[create_enterprise_allocation] Attempting allocation for order {payment_reference} '
+            f'with payload: {payload}'
+        )
+        logger.info(payload_message)
 
         response = self.post(url, json=payload)
         try:
