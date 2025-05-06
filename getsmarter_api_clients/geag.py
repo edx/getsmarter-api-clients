@@ -30,6 +30,25 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         response.raise_for_status()
         return response.json()
 
+    def _get_allocation_payload_for_logging(self, allocation_payload, fields_to_log=None):
+        """
+        Get the allocation payload for logging.
+
+        The payload for logging should only include the fields
+        specified in fields_to_log.
+
+        :param allocation_payload: The allocation payload to log.
+        :param fields_to_log: List of fields to include in the log.
+
+        :return: A dictionary containing only the specified fields.
+        """
+        if not fields_to_log:
+            fields_to_log = []
+        return {
+            field: allocation_payload.get(field)
+            for field in fields_to_log
+        }
+
     def create_allocation(
         self,
         payment_reference,
@@ -133,9 +152,16 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         payload = {k: v for k, v in payload.items() if v is not None}
 
         # log the payload
+        payload_for_logging = self._get_allocation_payload_for_logging(
+            allocation_payload=payload,
+            fields_to_log=[
+                'paymentReference',
+                'orderItems',
+            ],
+        )
         payload_message = (
             f'[create_allocation] Attempting allocation for order {payment_reference} '
-            f'with payload: {payload}'
+            f'with payload: {payload_for_logging}'
         )
         logger.info(payload_message)
 
@@ -269,9 +295,18 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         payload = {k: v for k, v in payload.items() if v is not None}
 
         # log the payload
+        payload_for_logging = self._get_allocation_payload_for_logging(
+            allocation_payload=payload,
+            fields_to_log=[
+                'paymentReference',
+                'enterpriseCustomerUuid',
+                'orgId',
+                'orderItems',
+            ],
+        )
         payload_message = (
             f'[create_enterprise_allocation] Attempting allocation for order {payment_reference} '
-            f'with payload: {payload}'
+            f'with payload: {payload_for_logging}'
         )
         logger.info(payload_message)
 
