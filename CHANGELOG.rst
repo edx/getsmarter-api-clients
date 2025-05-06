@@ -15,9 +15,14 @@ Unreleased
 ~~~~~~~~~~
 * Nothing unreleased
 
+[0.6.3]
+~~~~~~~
+* Logs the allocation payload sent to GEAG within the ``create_enterprise_allocation`` method.
+
 [0.6.2]
 ~~~~~~~
 * Logs the allocation payload sent to GEAG within the ``create_allocation`` method.
+* Upgrades requirements.
 
 [0.6.1]
 ~~~~~~~
