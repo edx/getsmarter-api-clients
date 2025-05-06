@@ -6,15 +6,15 @@
 #
 asgiref==3.8.1
     # via django
-certifi==2024.8.30
+certifi==2025.4.26
     # via requests
 cffi==1.17.1
     # via pynacl
-charset-normalizer==3.4.0
+charset-normalizer==3.4.2
     # via requests
-click==8.1.7
+click==8.1.8
     # via edx-django-utils
-django==4.2.16
+django==4.2.20
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   django-crum
@@ -22,35 +22,40 @@ django==4.2.16
     #   edx-django-utils
 django-crum==0.7.9
     # via edx-django-utils
-django-waffle==4.1.0
+django-waffle==4.2.0
     # via edx-django-utils
-edx-django-utils==7.0.0
+edx-django-utils==7.4.0
     # via -r requirements/base.in
 idna==3.10
     # via requests
-newrelic==10.2.0
+newrelic==10.11.0
     # via edx-django-utils
 oauthlib==3.2.2
     # via
     #   -r requirements/base.in
     #   requests-oauthlib
-pbr==6.1.0
+pbr==6.1.1
     # via stevedore
-psutil==6.1.0
+psutil==7.0.0
     # via edx-django-utils
 pycparser==2.22
     # via cffi
 pynacl==1.5.0
     # via edx-django-utils
-pytz==2024.2
+pytz==2025.2
     # via -r requirements/base.in
 requests==2.32.3
     # via requests-oauthlib
 requests-oauthlib==2.0.0
     # via -r requirements/base.in
-sqlparse==0.5.1
+sqlparse==0.5.3
     # via django
-stevedore==5.3.0
+stevedore==5.4.1
     # via edx-django-utils
 urllib3==2.2.3
-    # via requests
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   requests
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
