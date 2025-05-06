@@ -37,10 +37,12 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         The payload for logging should only include the fields
         specified in fields_to_log.
 
-        :param allocation_payload: The allocation payload to log.
-        :param fields_to_log: List of fields to include in the log.
+        Args:
+            allocation_payload: The allocation payload to log.
+            fields_to_log: List of fields to include in the log.
 
-        :return: A dictionary containing only the specified fields.
+        Returns:
+            A dictionary containing only the specified fields.
         """
         if not fields_to_log:
             fields_to_log = []
