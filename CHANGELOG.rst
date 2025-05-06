@@ -18,6 +18,8 @@ Unreleased
 [0.6.3]
 ~~~~~~~
 * Logs the allocation payload sent to GEAG within the ``create_enterprise_allocation`` method.
+* Ensures the logging of the allocation payload in both ``create_allocation`` and ``create_enterprise_allocation`` methods
+  only includes specified non-PII fields.
 
 [0.6.2]
 ~~~~~~~
