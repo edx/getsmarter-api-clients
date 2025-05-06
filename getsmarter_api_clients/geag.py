@@ -132,6 +132,14 @@ class GetSmarterEnterpriseApiClient(OAuthApiClient):
         # remove keys with empty values
         payload = {k: v for k, v in payload.items() if v is not None}
 
+        # log the payload
+        payload_message = (
+            f'Attempting allocation for order {payment_reference} '
+            f'with payload: {payload}'
+        )
+        logger.info(payload_message)
+
+        # send the allocation
         response = self.post(url, json=payload)
         try:
             response.raise_for_status()
